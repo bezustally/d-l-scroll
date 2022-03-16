@@ -19,8 +19,15 @@ window.addEventListener('load', function () {
   const scrollUpArrow = document.querySelector('.scrollUpArrow');
   scrollUpArrow.addEventListener('click', () => scrollToId('#menu'));
 
-  window.addEventListener('scroll', function () {
+  let scrollTimeout;
+  window.addEventListener('scroll', function (e) {
+    clearTimeout(scrollTimeout);
+    scrollTimeout = setTimeout(() => scrollHandler(e), 100);
+  });
+
+  function scrollHandler() {
     const scrolledPixels = this.scrollY;
+    console.log(scrolledPixels);
     const fullHeight = document.body.scrollHeight;
     if (scrolledPixels > fullHeight * 0.6)
       scrollUpArrow.classList.add('scrollUpArrow-visible');
@@ -42,7 +49,7 @@ window.addEventListener('load', function () {
         menuLinks[i].classList.remove('menu__link-active');
       }
     }
-  });
+  }
 
   if (window.location.hash) scrollToId(window.location.hash);
   // for direct links with anchor
